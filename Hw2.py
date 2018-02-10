@@ -13,40 +13,66 @@ def fEuler(posx,posy,velx,vely,accelx,accely,dt):
     posx_new = posx + velx*dt
     posy_new = posy + vely*dt
 
-    return [vx_new, vy_new, posx_new, posy_new]
+    return vx_new, vy_new, posx_new, posy_new
 
 def midpoint():
     pass
 
 d_true =  v_0**2*np.sin(2*angle)/g
 
-v_0x = v_0*np.cos(angle)
-v_0y = v_0*np.sin(angle)
+vx0 = v_0*np.cos(angle)
+vy0 = v_0*np.sin(angle)
+x0 = 0
+y0 = 0
 
-dt = .5
+xl=[0]
+yl=[0]
+tl=[0]
+vxl = [vx0]
+vyl = [vy0]
 
-x = [0]
-y = [0]
-vx = [v_0x]
-vy = [v_0y]
+t=0
+dt=.096
 
-t = np.arange(0,1000,dt)
-for i in range(len(t)-1):
-    if y[i]<0:
-        break
-    else:
-        step = fEuler(x[i],y[i],vx[i],vy[i],0,-g,dt)
+while y0>=0:
+    
+    vx,vy,x,y = fEuler(x0,y0,vx0,vy0,0,-g,dt)
+    
+    vx0,vy0,x0,y0 = vx,vy,x,y
+    
+    t += dt
+    
+    xl.append(x0)
+    yl.append(y0)
+    vxl.append(vx0)
+    vyl.append(vy0)
+    tl.append(t)
+    
+plt.plot(xl,yl)
+yl.index(max(yl))
+print(max(xl))
+    
+#t=0
+#dt=.096
+#
+#for i in range(2000):
+#
+#    while y[i]>=0:
+#    
+#        step = fEuler(x[i],y[i],vx[i],vy[i],0,-g,dt)
+#    
+#        vx.append(step[0])
+#        x.append(step[2])
+#    
+#        vy.append(step[1])
+#        y.append(step[3])
+#        print(x[i+1],y[i+1])
+        
 
-        vx.append(step[0])
-        x.append(step[2])
 
-        vy.append(step[1])
-        y.append(step[3])
-        #print(x[i+1],y[i+1])
-
-E = np.abs(d_true - x[-2])/d_true
-
-
-print(E, x[-2], d_true)
-
-#plt.plot(y,x)
+#E = np.abs(d_true - x[-1])/d_true
+#
+#
+#print(E, x[-1], d_true,len(x))
+#
+#plt.plot(x,y)
