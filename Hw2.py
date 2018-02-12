@@ -17,10 +17,12 @@ def fEuler(posx,posy,velx,vely,accelx,accely,dt):
 
 def midpoint(posx,posy,velx,vely,accelx,accely,dt):
     
-    vx_new = velx + dt*(accelx) 
-    vy_new = vely + dt*((accely))
-    posx_new = posx + dt*(velx +(dt/2)*accelx)
-    posy_new = posy + dt*(vely +(dt/2)*accely)
+    vx,vy,x,y=fEuler(posx,posy,velx,vely,accelx,accely,dt/2)
+    
+    vx_new = vx + dt*(accelx) 
+    vy_new = vy + dt*((accely))
+    posx_new = x + dt*vx
+    posy_new = y + dt*vy
     
     return vx_new, vy_new, posx_new, posy_new
 
@@ -79,7 +81,7 @@ vx2 = [vx0]
 vy2 = [vy0]
 
 t=0
-dt=.4
+dt=.14
 
 while y0>=0:
     
@@ -95,15 +97,14 @@ while y0>=0:
     vy2.append(vy0)
     t2.append(t)
 
-#plt.plot(x2,y2)
-#y2.index(max(y2))
-#print(max(x2))
+plt.plot(x2,y2)
+y2.index(max(y2))
     
 E = np.abs(d_true - x2[-1])/d_true*100
 
-#print('The error is: {0:.2f}%, The calculated distance is: {1:.2f}, The true \
-#distance is: {2:.2f}, The number of steps is: {3:}'.format(E,x2[-1],d_true,\
-#len(x2)))
+print('The error is: {0:.2f}%, The calculated distance is: {1:.2f}, The true \
+distance is: {2:.2f}, The number of steps is: {3:}'.format(E,x2[-1],d_true,\
+len(x2)))
 
 #Adding air resistance to Euler
 
@@ -149,8 +150,8 @@ while y0>=0:
     ay3.append(ay0)
     t3.append(t)
 
-plt.plot(x3,y3)
-y3.index(max(y3))
-
-print('The calculated distance is: {0:.2f}, The number of steps is: {1:}'\
-      .format(x3[-1],len(x3)))
+#plt.plot(x3,y3)
+#y3.index(max(y3))
+#
+#print('The calculated distance is: {0:.2f}, The number of steps is: {1:}'\
+#      .format(x3[-1],len(x3)))
